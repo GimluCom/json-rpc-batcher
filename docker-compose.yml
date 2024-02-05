@@ -1,0 +1,15 @@
+version: '3'
+services:
+  json-rpc-batcher:
+    image: nginx
+    container_name: 'json-rpc-batcher'
+    ports:
+      - "9545:8545"
+    volumes:
+      - "./nginx/templates:/etc/nginx/templates"
+      - "./nginx/docker-entrypoint.d/load:/docker-entrypoint.d/load"
+      - "./nginx/njs/http:/etc/nginx/njs/http"
+    environment:
+        BATCH_SIZE: 5
+        RPC_URL: https://gnosis.drpc.org/
+

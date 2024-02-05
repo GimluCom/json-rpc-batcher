@@ -1,0 +1,24 @@
+js_path "/etc/nginx/njs/";
+
+js_import main from http/json_batcher.js;
+
+server {
+    listen 8545;
+    server_name  localhost;
+
+    resolver 1.1.1.1 1.0.0.1;
+
+    location /env/rpc-url {
+        return 200 "${RPC_URL}";
+    }
+    location /env/batch-size {
+        return 200 "${BATCH_SIZE}";
+    }
+
+    location / {
+        js_fetch_verify off;
+        js_content main.batcher;
+    }
+}
+
+
